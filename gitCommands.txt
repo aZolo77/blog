@@ -1,0 +1,14 @@
+# {https://githowto.com/ru}
+git init
+git config user.name "Name"
+git config user.email "Email"
+git remote add origin https://github.com/aZolo77/Project.git
+git add --all
+git commit -m "My commit"
+git push -u origin master (login, password)
+
+# создание новой ветки
+git checkout -b __branch-name__
+
+# переключение между ветками
+git checkout __branch-name__
