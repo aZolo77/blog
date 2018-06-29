@@ -1,5 +1,10 @@
 /* eslint-disable no-undef*/
 $(function() {
+  // функция удаления ошибочно-заполненных полей
+  function removeErrors() {
+    $('form.login p.error, form.register p.error').remove();
+    $('.login input, .register input').removeClass('error');
+  }
   // toggle form
   var flag = true;
   $('.switch-button').on('click', function(e) {
@@ -7,8 +12,7 @@ $(function() {
 
     // обнуляем значения, введённые хомяком и убираем класс error
     $('.login input, .register input').val('');
-    $('p.error').remove();
-    $('input').removeClass('error');
+    removeErrors();
 
     if (flag) {
       flag = false;
@@ -22,9 +26,8 @@ $(function() {
   });
 
   // убираем сообщение об ошибке при фокусе на инпутах
-  $('input').on('focus', function() {
-    $('p.error').remove();
-    $('input').removeClass('error');
+  $('form.login input, form.register input').on('focus', function() {
+    removeErrors();
   });
 
   // регистрация пользователя
@@ -32,8 +35,7 @@ $(function() {
     e.preventDefault();
 
     // убираем класс error при отправке данных
-    $('p.error').remove();
-    $('input').removeClass('error');
+    removeErrors();
 
     // создаём объект из вводимых пользователем данных
     var data = {
@@ -51,7 +53,7 @@ $(function() {
     }).done(function(data) {
       // если "что то пошло не так" выводим сообщение об ошибке
       if (!data.ok) {
-        $('p.error').remove();
+        $('form.login p.error, form.register p.error').remove();
         var errorMsg = '<p class="error">' + data.error + '</p>';
         $('.register h2').after(errorMsg);
         if (data.fields) {
@@ -72,8 +74,7 @@ $(function() {
     e.preventDefault();
 
     // убираем класс error при отправке данных
-    $('p .error').remove();
-    $('input').removeClass('error');
+    removeErrors();
 
     // создаём объект из вводимых пользователем данных
     var data = {
@@ -90,7 +91,7 @@ $(function() {
     }).done(function(data) {
       // если "что то пошло не так" выводим сообщение об ошибке
       if (!data.ok) {
-        $('p.error').remove();
+        $('form.login p.error, form.register p.error').remove();
         var errorMsg = '<p class="error">' + data.error + '</p>';
         $('.login h2').after(errorMsg);
         if (data.fields) {
@@ -110,6 +111,11 @@ $(function() {
 
 /* eslint-disable no-undef*/
 $(function() {
+  // функция удаления ошибочно-заполненных полей
+  function removeErrors() {
+    $('.post-form p.error').remove();
+    $('.post-form input, #post-body').removeClass('error');
+  }
   // Инициализация текстового редактора
   // eslint-disable-next-line
   var editor = new MediumEditor('#post-body', {
@@ -119,9 +125,15 @@ $(function() {
     }
   });
 
+  // убираем сообщение об ошибке при фокусе на инпутах
+  $('.post-form input, #post-body').on('focus', function() {
+    removeErrors();
+  });
+
   // добавление нового поста в БД
   $('.publish-button').on('click', function(e) {
     e.preventDefault();
+    removeErrors();
 
     var data = {
       title: $('#post-title').val(),
@@ -136,7 +148,7 @@ $(function() {
     }).done(function(data) {
       if (!data.ok) {
         // если есть незаполненные поля
-        $('p.error').remove();
+        $('.post-form p.error').remove();
         var errorMsg = '<p class="error">' + data.error + '</p>';
         $('.post-form h2').after(errorMsg);
         if (data.fields) {
@@ -145,7 +157,7 @@ $(function() {
           });
         }
       } else {
-        //
+        $(location).attr('href', '/');
       }
     });
   });

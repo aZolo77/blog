@@ -31,12 +31,16 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "faker": "^4.1.0",
     "gulp-concat": "^2.6.1",
     "gulp-uglifyjs": "^0.6.2",
     "jquery": "^3.3.1",
     "medium-editor": "^5.23.3",
     "mongoose": "^5.1.6",
-    "static-asset": "^0.6.0"
+    "mongoose-url-slugs": "^1.0.2",
+    "static-asset": "^0.6.0",
+    "transliter": "^2.2.1",
+    "turndown": "^4.0.2"
   },
   "engines": {
     "node": ">=6.0.0"

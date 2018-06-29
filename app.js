@@ -1,5 +1,6 @@
-// 16 Tutorial {https://www.youtube.com/watch?v=r1lkPGjoZow&index=16&list=PL_RVw8KXnKnP_8vWPmXq3Vrnj25tkf-5p}
-// [Time: 16:00] : Добавление нового поста
+// 18 Tutorial {https://www.youtube.com/watch?v=cMb2GTMlnhs&list=PL_RVw8KXnKnP_8vWPmXq3Vrnj25tkf-5p&index=18}
+// [Time: 00:00] : Реализация пагинации
+// Github page: {https://github.com/pepelatz/pepelatz/tree/video_18}
 
 // === Плагины ===
 const express = require('express');
@@ -20,12 +21,16 @@ const routes = require('./routes');
 mongoose.Promise = global.Promise;
 mongoose.set('debug', config.IS_PRODUCTION);
 
+// подключение к БД
 mongoose.connection
   .on('error', error => console.error(error))
   .on('close', () => console.log('Database connection closed.'))
-  .on('open', () => {
+  .once('open', () => {
     const info = mongoose.connections[0];
     console.log(`Connected to ${info.host}: ${info.port}/${info.name}`);
+
+    // плагин для генерации fake-постов
+    // require('./mocks')();
   });
 
 mongoose.connect(config.MONGO_URL);
