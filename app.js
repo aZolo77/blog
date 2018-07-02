@@ -1,6 +1,6 @@
-// 18 Tutorial {https://www.youtube.com/watch?v=cMb2GTMlnhs&list=PL_RVw8KXnKnP_8vWPmXq3Vrnj25tkf-5p&index=18}
-// [Time: 00:00] : Реализация пагинации
-// Github page: {https://github.com/pepelatz/pepelatz/tree/video_18}
+// 20 Tutorial {https://www.youtube.com/watch?v=daczDaRRcMY&index=20&list=PL_RVw8KXnKnP_8vWPmXq3Vrnj25tkf-5p}
+// [Time: 18:43] : Реализуем страницу пользователя
+// Github page: {https://github.com/pepelatz/pepelatz/tree/video_20}
 
 // === Плагины ===
 const express = require('express');
@@ -68,19 +68,8 @@ app.use(
 );
 
 // === routers ===
-app.get('/', (req, res) => {
-  const id = req.session.userId;
-  const login = req.session.userLogin;
-  // использовать шаблон из views
-  res.render('index', {
-    // передать id  login сессии, если они есть
-    user: {
-      id,
-      login
-    }
-  });
-});
-
+// пагинация
+app.use('/', routes.archive);
 // registration
 app.use('/api/auth', routes.auth);
 app.use('/post', routes.post);
