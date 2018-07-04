@@ -3,7 +3,8 @@
     <div class="container">
       <div class="content add-post">
 
-        <form method="post" class="post-form">
+        <!-- === форма для добавления постов === -->
+        <form method="POST" class="post-form">
           <h2>Добавление поста</h2>
           <div class="form-group">
             <label for="post-title">Заголовок</label>
@@ -11,12 +12,18 @@
           </div>
           <div class="form-group">
             <label for="post-body">Текст комментария</label>
-            <div id="post-body"></div>
+            <textarea id="post-body"></textarea>
           </div>
           <div class="buttons">
             <button class="save-button secondary-inverse">Сохранить как черновик</button>
             <button class="publish-button">Опубликовать</button>
           </div>
+        </form>
+
+        <!-- === форма для загрузки картинок === -->
+        <form action="POST" enctype="multipart/form-data" id="fileinfo">
+          <input type="file" name="file" id="file" required>
+          <button class="upload-button">Загрузить</button>
         </form>
 
       </div>

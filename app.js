@@ -1,6 +1,6 @@
-// 20 Tutorial {https://www.youtube.com/watch?v=daczDaRRcMY&index=20&list=PL_RVw8KXnKnP_8vWPmXq3Vrnj25tkf-5p}
-// [Time: 18:43] : Реализуем страницу пользователя
-// Github page: {https://github.com/pepelatz/pepelatz/tree/video_20}
+// 25 Tutorial {https://www.youtube.com/watch?v=X9RAU33Vu5M&index=25&list=PL_RVw8KXnKnP_8vWPmXq3Vrnj25tkf-5p}
+// [Time: 00:00] : функция редактирования постов
+// Github page: {https://github.com/pepelatz/pepelatz/tree/video_25}
 
 // === Плагины ===
 const express = require('express');
@@ -73,6 +73,10 @@ app.use('/', routes.archive);
 // registration
 app.use('/api/auth', routes.auth);
 app.use('/post', routes.post);
+// comment
+app.use('/comment', routes.comment);
+// загрузка файлов
+app.use('/upload', routes.upload);
 
 // отдать 404 страницу ошибки
 app.use((req, res, next) => {

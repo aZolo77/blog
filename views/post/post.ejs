@@ -20,7 +20,21 @@
                 <%= post.owner.login %>
               </a>
             </div>
-            <a href="/">Комментарии</a>
+          </div>
+        </div>
+        <!-- === comments === -->
+        <div class="comments" id="<%= post.id %>">
+          <h3>Комментарии</h3>
+          <div class="comment-list">
+            <%- include('../layout/comments.ejs', {items: comments}) %>
+
+              <form class="comment">
+                <textarea name="body"></textarea>
+                <div class="buttons">
+                  <button class="cancel secondary">Отмена</button>
+                  <button class="send">Отправить</button>
+                </div>
+              </form>
           </div>
         </div>
       </div>

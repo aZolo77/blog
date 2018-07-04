@@ -24,13 +24,13 @@
           <% } %>
             <div class="pagination">
               <% if(current > 2) { %>
-                <a class="new" href="/archive/<%= Number(current) - 1%>">&larr; К новым</a>
+                <a class="new" href="/users/<%= _user.login %>/<%= Number(current) - 1%>">&larr; К новым</a>
                 <% } %>
                   <% if(current == 2) { %>
-                    <a class="new" href="/">&larr; На главную</a>
+                    <a class="new" href="/users/<%= _user.login %>">&larr; На первую</a>
                     <% } %>
                       <% if(pages > 0 && current < pages) { %>
-                        <a class="old" href="/archive/<%= Number(current) + 1%>">К старым &rarr;</a>
+                        <a class="old" href="/users/<%= _user.login %>/<%= Number(current) + 1%>">К старым &rarr;</a>
                         <% } %>
             </div>
       </div>

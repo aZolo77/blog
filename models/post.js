@@ -1,3 +1,4 @@
+// модель для таблицы Post
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 // плагин для генерации ЧПУ
@@ -18,12 +19,27 @@ const schema = new Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'User'
+    },
+    commentCount: {
+      type: Number,
+      default: 0 // количество комментариев к посту
     }
   },
   {
     timestamps: true
   }
 );
+
+// статическая функция для инкремента колва комментариев
+schema.statics = {
+  incCommentCount(postId) {
+    return this.findByIdAndUpdate(
+      postId,
+      { $inc: { commentCount: 1 } },
+      { new: true }
+    );
+  }
+};
 
 // Создаём дополнительное поле url для передачи в ссылку (создаёт уникальные названия по умолчанию)
 schema.plugin(

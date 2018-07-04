@@ -5,7 +5,7 @@ const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const nano = require('gulp-cssnano');
 const concat = require('gulp-concat');
-const uglify = require('gulp-uglifyjs');
+// const uglify = require('gulp-uglifyjs');
 /* eslint-enable node/no-unpublished-require*/
 
 // задача для компиляции, добавления префиксов и сжатия стилей
@@ -27,12 +27,7 @@ gulp.task('scss', () => {
 gulp.task('scripts', () => {
   return (
     gulp
-      .src([
-        'dev/js/auth.js',
-        'dev/js/post.js',
-        'node_modules/medium-editor/dist/js/medium-editor.min.js'
-        //
-      ])
+      .src(['dev/js/auth.js', 'dev/js/post.js', 'dev/js/comment.js'])
       .pipe(concat('scripts.js')) // берёт все скрипты и конкатеринует в один
       // .pipe(uglify()) // сжимаем скрипты
       .pipe(gulp.dest('public/javascripts'))
