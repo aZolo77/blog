@@ -9,6 +9,11 @@
                 <a href="/posts/<%= posts[i].url %>">
                   <%= posts[i].title %>
                 </a>
+                <!-- режим редактирования -->
+                <!-- если хозяин поста совпадает с зарегистрированным в данный момент пользователем -->
+                <% if(posts[i].owner.login === user.login) { %>
+                  <a style="color: #333; text-decoration: none;" href="/post/edit/<%= posts[i].id %>">&#9998;</a>
+                  <% } %>
               </h2>
             </div>
             <div class="body">

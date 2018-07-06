@@ -9,22 +9,26 @@ const config = require('../config');
 // подключаем Модели
 const models = require('../models');
 
-// функция для показа постов
-async function showPosts(req, res) {
+// функция для вывода всех постов
+async function posts(req, res) {
   const userId = req.session.userId;
   const userLogin = req.session.userLogin;
   const perPage = +config.PER_PAGE; // кол-во постов на странице (3 по умолчанию)
   const page = req.params.page || 1; // номер страницы
 
   try {
-    const posts = await models.Post.find({})
+    const posts = await models.Post.find({
+      status: 'published'
+    })
       .skip(perPage * page - perPage)
       .limit(perPage)
       .populate('owner') // наполняем свойство owner {ref: 'User'}
       .sort({
         createdAt: -1 // обратная сортировка по дате добавления (чтобы сначала выводились новые посты)
       });
-    const count = await models.Post.count(); // считаем кол-во постов в БД
+
+    // считаем кол-во постов в БД
+    const count = await models.Post.count();
     res.render('archive/index', {
       // использовать шаблон из views
       posts,
@@ -39,50 +43,18 @@ async function showPosts(req, res) {
   } catch (error) {
     throw new Error('Server error');
   }
-
-  /*
-  // выбираем все посты [skip - пропуск кол-ва постов]
-  models.Post.find({})
-    .skip(perPage * page - perPage)
-    .limit(perPage)
-    .populate('owner') // наполняем свойство owner {ref: 'User'}
-    .sort({
-      createdAt: -1 // обратная сортировка по дате добавления (чтобы сначала выводились новые посты)
-    })
-    .then(posts => {
-      models.Post.count()
-        .then(count => {
-          res.render('archive/index', {
-            // использовать шаблон из views
-            posts,
-            current: page,
-            pages: Math.ceil(count / perPage),
-            user: {
-              // передать id  login сессии, если они есть для sidebar
-              id: userId,
-              login: userLogin
-            }
-          });
-        })
-        .catch(() => {
-          throw new Error('Server error');
-        });
-    })
-    .catch(() => {
-      throw new Error('Server error');
-    });
-    */
 }
 
 // главная
-router.get('/', (req, res) => showPosts(req, res));
+router.get('/', (req, res) => posts(req, res));
 // страницы со старыми постами
-router.get('/archive/:page', (req, res) => showPosts(req, res));
+router.get('/archive/:page', (req, res) => posts(req, res));
+
 // страница конкретного поста
 router.get('/posts/:post', async (req, res, next) => {
+  const url = req.params.post.trim().replace(/ +(?= )/g, ''); // убирает все пробелы в начале и конце
   const userId = req.session.userId;
   const userLogin = req.session.userLogin;
-  const url = req.params.post.trim().replace(/ +(?= )/g, ''); // убирает все пробелы в начале и конце
 
   // если не введено ничего в качестве /:post - выводим ошибку
   if (!url) {
@@ -91,7 +63,10 @@ router.get('/posts/:post', async (req, res, next) => {
     next(err);
   } else {
     try {
-      const post = await models.Post.findOne({ url });
+      const post = await models.Post.findOne({
+        url,
+        status: 'published'
+      });
       // если не существует такого url в БД - выводим ошибку
       if (!post) {
         const err = new Error('Not Found');
@@ -119,28 +94,6 @@ router.get('/posts/:post', async (req, res, next) => {
     } catch (error) {
       throw new Error('Server error');
     }
-
-    /*
-    models.Post.findOne({
-      url
-    })
-      .then(post => {
-        if (!post) {
-          const err = new Error('Not Found');
-          err.status = 404;
-          next(err);
-        } else {
-          res.render('post/post', {
-            post,
-            user: {
-              id: userId,
-              login: userLogin
-            }
-          });
-        }
-      })
-      .catch(console.log);
-      */
   }
 });
 
@@ -162,7 +115,6 @@ router.get('/users/:login/:page*?', async (req, res) => {
     })
       .skip(perPage * page - perPage)
       .limit(perPage)
-      .populate('owner')
       .sort({
         createdAt: -1
       });
@@ -182,51 +134,6 @@ router.get('/users/:login/:page*?', async (req, res) => {
   } catch (error) {
     throw new Error('Server error');
   }
-
-  /*
-  // ищем пользователя с данным login
-  models.User.findOne({
-    login
-  })
-    .then(user => {
-      // выбираем все посты [skip - пропуск кол-ва постов]
-      models.Post.find({
-        owner: user.id // post.owner == user.id
-      })
-        .skip(perPage * page - perPage)
-        .limit(perPage)
-        .populate('owner')
-        .sort({
-          createdAt: -1
-        })
-        .then(posts => {
-          models.Post.count({
-            owner: user.id
-          })
-            .then(count => {
-              res.render('archive/user', {
-                // использовать шаблон из views
-                posts,
-                _user: user,
-                current: page,
-                pages: Math.ceil(count / perPage),
-                user: {
-                  // передать id  login сессии, если они есть для sidebar
-                  id: userId,
-                  login: userLogin
-                }
-              });
-            })
-            .catch(() => {
-              throw new Error('Server error');
-            });
-        })
-        .catch(() => {
-          throw new Error('Server error');
-        });
-    })
-    .catch(console.log);
-    */
 });
 
 module.exports = router;

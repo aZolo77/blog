@@ -124,13 +124,21 @@ $(function() {
   });
 
   // добавление нового поста в БД
-  $('.publish-button').on('click', function(e) {
+  $('.publish-button, .save-button').on('click', function(e) {
     e.preventDefault();
     removeErrors();
 
+    // получаем нужную кнопку
+    var isDraft =
+      $(this)
+        .attr('class')
+        .split(' ')[0] === 'save-button';
+
     var data = {
       title: $('#post-title').val(),
-      body: $('#post-body').val()
+      body: $('#post-body').val(),
+      isDraft: isDraft, // [true/false]
+      postId: $('#post-id').val()
     };
 
     $.ajax({
@@ -139,6 +147,7 @@ $(function() {
       contentType: 'application/json',
       url: '/post/add'
     }).done(function(data) {
+      console.log(data);
       if (!data.ok) {
         // если есть незаполненные поля
         $('.post-form p.error').remove();
@@ -150,7 +159,12 @@ $(function() {
           });
         }
       } else {
-        $(location).attr('href', '/');
+        // $(location).attr('href', '/');
+        if (isDraft) {
+          $(location).attr('href', '/post/edit/' + data.post.id);
+        } else {
+          $(location).attr('href', '/posts/' + data.post.url);
+        }
       }
     });
   });

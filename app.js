@@ -1,6 +1,6 @@
-// 25 Tutorial {https://www.youtube.com/watch?v=X9RAU33Vu5M&index=25&list=PL_RVw8KXnKnP_8vWPmXq3Vrnj25tkf-5p}
-// [Time: 00:00] : функция редактирования постов
-// Github page: {https://github.com/pepelatz/pepelatz/tree/video_25}
+// 27 Tutorial {https://www.youtube.com/watch?v=zEKDAyQQMpg&list=PL_RVw8KXnKnP_8vWPmXq3Vrnj25tkf-5p&index=27}
+// [Time: 02:00] : Загрузка картинок
+// Github page: {https://github.com/pepelatz/pepelatz/tree/video_27}
 
 // === Плагины ===
 const express = require('express');

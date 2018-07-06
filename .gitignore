@@ -1,6 +1,7 @@
 node_modules
 dev
 uploads
+package-lock.json
 .env
 .jshintrc
 .vscode

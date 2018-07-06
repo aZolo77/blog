@@ -18,7 +18,7 @@ const schema = new Schema(
     }
   },
   {
-    timestamps: false
+    timestamps: true
   }
 );
 
